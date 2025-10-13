@@ -1,0 +1,35 @@
+// Colores principales
+$white: #ffffff;
+$white-transparent: #fcfcfc25;
+$selected: rgba(67, 149, 5, 0.705);
+
+// Colores de marca
+$primary-green: #439505;
+$secondary-green: #67b02a;
+$green-gradient: linear-gradient(90deg, #439505, #67b02a);
+
+// Colores de texto
+$text-dark: #2c3e50;
+$text-gray: #6c757d;
+$text-light-gray: #555;
+
+// Colores de fondo
+$bg-light: #f8f9fa;
+$bg-light-gray: #e9ecef;
+$bg-gradient: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+
+// Colores de bordes
+$border-light: rgba(67, 149, 5, 0.1);
+$border-medium: rgba(67, 149, 5, 0.3);
+$border-strong: rgba(67, 149, 5, 0.5);
+
+// Colores de error
+$error-red: #dc3545;
+$error-bg: rgba(220, 53, 69, 0.1);
+
+// Sombras
+$shadow-light: 0 10px 30px rgba(0, 0, 0, 0.1);
+$shadow-medium: 0 20px 40px rgba(0, 0, 0, 0.15);
+$shadow-strong: 0 15px 35px rgba(67, 149, 5, 0.2);
+$shadow-icon: 0 4px 8px rgba(0, 0, 0, 0.1);
+$shadow-icon-hover: 0 6px 12px rgba(67, 149, 5, 0.3);

@@ -1,0 +1,132 @@
+@use './variables.scss' as *;
+
+.trabajadores-container {
+    padding: 4rem 2rem;
+    // font-family: 'Roboto', sans-serif;
+    color: #333;
+    text-align: center;
+    min-height: 80vh;
+
+    h2 {
+        font-size: 2.5rem;
+        margin-bottom: 3rem;
+        color: #2c3e50;
+        font-weight: 700;
+        position: relative;
+        
+        &::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, #439505, #67b02a);
+            border-radius: 2px;
+        }
+    }
+}
+
+.staff-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 3rem;
+    margin: 3rem auto 0;
+    max-width: 1200px;
+    padding: 0 1rem;
+}
+
+.staff-card {
+    background: $white;
+    border-radius: 20px;
+    padding: 1rem;
+    box-shadow: $shadow-light;
+    text-align: center;
+    transition: all 0.3s ease;
+    border: 1px solid $border-light;
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: $green-gradient;
+        transform: scaleX(0);
+        transition: transform 0.3s ease;
+    }
+
+    h3 {
+        font-size: 1.4rem;
+        margin: 1rem 0 0.5rem;
+        color: $text-dark;
+        font-weight: 600;
+        transition: color 0.3s ease;
+    }
+
+    p {
+        font-size: 1rem;
+        color: $text-gray;
+        margin: 0;
+        line-height: 1.6;
+    }
+
+    .photo-placeholder {
+        position: relative;
+        margin-bottom: 1.5rem;
+        width: 100%;
+        height: 350px;
+        overflow: hidden;
+        border-radius: 15px;
+        
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+            transition: all 0.3s ease;
+            filter: drop-shadow($shadow-icon);
+        }
+    }
+
+    &:hover {
+        transform: translateY(-8px);
+        box-shadow: $shadow-medium;
+        border-color: $border-medium;
+
+        &::before {
+            transform: scaleX(1);
+        }
+
+        h3 {
+            color: $primary-green;
+        }
+
+        .photo-placeholder img {
+            border-color: $border-medium;
+            filter: drop-shadow($shadow-icon-hover);
+        }
+    }
+}
+
+.loading-state,
+.error-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: $text-gray;
+    font-size: 1.2rem;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 15px;
+    margin: 2rem auto;
+    max-width: 500px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.error-state {
+    color: $error-red;
+    background: $error-bg;
+}
