@@ -88,9 +88,9 @@ export default {
     return {
       // Secciones disponibles
       sections: [
-        { key: 'trabajadores', icon: '/src/assets/img/icon-trabajadores.png', label: 'trabajadores' },
-        { key: 'servicios', icon: '/src/assets/img/icon-servicios.png', label: 'servicios' },
-        { key: 'antesYDespues', icon: '/src/assets/img/icon-antesYDespues.png', label: 'antesYDespues' }
+        { key: 'trabajadores', icon: '/img/icon-trabajadores.png', label: 'trabajadores' },
+        { key: 'servicios', icon: '/img/icon-servicios.png', label: 'servicios' },
+        { key: 'antesYDespues', icon: '/img/icon-antesYDespues.png', label: 'antesYDespues' }
       ],
       // Sección actual
       currentSection: null,
