@@ -15,11 +15,12 @@
     <!-- Servicios cargados -->
     <ul v-else class="servicios-grid">
       <li v-for="(servicio, index) in servicios" :key="servicio.id || index"
-        :class="['servicio-item', { 'expanded': openIndex === index }]">
-        <button type="button" class="servicio-head" @click="toggle(index)">
+        :class="['servicio-item', { 'expanded': openIndex === index }]"
+        @click="toggle(index)">
+        <div class="servicio-head">
           <img class="servicio-icon" :src="servicio.imagen_url" :alt="servicio.nombre" />
           <h3>{{ servicio.nombre }}</h3>
-        </button>
+        </div>
         <div>
           <p :class="['servicio-detalle']">{{ servicio.descripcion }}</p>
         </div>

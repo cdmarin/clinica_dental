@@ -91,6 +91,12 @@
     transform: translateY(-5px);
     box-shadow: $shadow-medium;
     border-top-color: $secondary-green;
+
+    @media (max-width: 768px) {
+      transform: none;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+      border-top-color: $primary-green;
+    }
   }
 
   img {

@@ -119,6 +119,24 @@
             border-color: $border-medium;
             filter: drop-shadow($shadow-icon-hover);
         }
+
+        @media (max-width: 768px) {
+            transform: none;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border-color: $border-light;
+
+            &::before {
+                transform: scaleX(0);
+            }
+
+            h3 {
+                color: $text-dark;
+            }
+
+            .photo-placeholder img {
+                filter: drop-shadow($shadow-icon);
+            }
+        }
     }
 }
 
