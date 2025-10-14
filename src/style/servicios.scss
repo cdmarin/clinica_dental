@@ -84,6 +84,17 @@
       transform: scaleX(1);
     }
   }
+
+  /* Mantener animación y estilos de hover cuando está expandido (click) */
+  &.expanded {
+    transform: translateY(-8px);
+    box-shadow: $shadow-medium;
+    border-color: $border-medium;
+
+    &::before {
+      transform: scaleX(1);
+    }
+  }
 }
 
 .servicio-head {
@@ -108,7 +119,8 @@
   filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
   transition: all 0.3s ease;
 
-  .servicio-head:hover & {
+  .servicio-head:hover &,
+  .servicio-item.expanded & {
     filter: drop-shadow(0 6px 12px rgba(67, 149, 5, 0.3));
   }
 }
@@ -120,7 +132,8 @@
   font-weight: 600;
   transition: color 0.3s ease;
 
-  .servicio-head:hover & {
+  .servicio-head:hover &,
+  .servicio-item.expanded & {
     color: $primary-green;
   }
 }

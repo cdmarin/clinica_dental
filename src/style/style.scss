@@ -13,7 +13,7 @@ body {
 }
 
 .hero-section {
-  height: 100vh;
+  height: 70vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -41,13 +41,20 @@ body {
 
 .sections-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  grid-template-columns: 1fr;
   gap: 1.5rem;
   padding: 2rem;
   outline: none;
+  max-width: 1000px;
+  margin: 0 auto;
 
   button {
     transition: .3s;
+  }
+
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
   }
 }
 
@@ -70,9 +77,9 @@ body {
     left: 50%;
     transform: translateX(-50%) scaleX(0);
     width: 180px;
-    height: 6px;
+    height: 4px; /* más fina */
     background: $green-gradient;
-    border-radius: 3px;
+    border-radius: 2px;
     transition: transform 0.3s ease;
   }
 
@@ -109,23 +116,224 @@ body {
 
 
 .testimonials {
-  padding: 2rem;
+  padding: 4rem 2rem;
   background: #fff;
   text-align: center;
+  min-height: 50vh;
 
   h2 {
     margin-bottom: 3rem;
     font-size: 2.5rem;
-    color: #333;
+    color: $text-dark;
+    font-weight: 700;
+    position: relative;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 4px;
+      background: $green-gradient;
+      border-radius: 2px;
+    }
   }
 }
 
+.testimonial-carousel {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
 
-.testimonial-list blockquote {
-  font-style: italic;
-  margin: 0.5rem auto;
-  max-width: 600px;
-  color: #555;
+.testimonial-container {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+  min-height: 200px;
+}
+
+.testimonial-content {
+  background: $white;
+  border-radius: 20px;
+  padding: 3rem 2rem;
+  /* Sombra más suave y separada del borde para evitar choque visual */
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  position: relative;
+  /* Clipa la línea superior a los bordes redondeados */
+  overflow: hidden;
+  /* Un pequeño margen para que la sombra no toque el contenedor padre */
+  margin: 0 1rem 1rem;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 1px;  /* evita que se desborde 1px sobre las esquinas */
+    right: 1px;
+    height: 4px;
+    background: $green-gradient;
+    /* Asegura que la línea siga el borde redondeado del contenedor */
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+  }
+
+  blockquote {
+    font-style: italic;
+    font-size: 1.2rem;
+    line-height: 1.8;
+    color: $text-light-gray;
+    margin: 0 0 1.5rem 0;
+    quotes: """ """ "'" "'";
+
+    &::before {
+      content: open-quote;
+      font-size: 3rem;
+      color: $primary-green;
+      opacity: 0.3;
+      line-height: 0;
+      vertical-align: -0.4em;
+    }
+  }
+
+  .testimonial-autor {
+    font-weight: 600;
+    color: $primary-green;
+    margin: 0;
+    font-size: 1.1rem;
+  }
+}
+
+.testimonial-nav {
+  background: $white;
+  border: 1px solid $border-light;
+  outline: none;
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: $shadow-light;
+  color: $text-dark;
+  flex-shrink: 0;
+
+  &:hover {
+    background: $primary-green;
+    color: $white;
+    border-color: $primary-green;
+    box-shadow: $shadow-medium;
+    transform: translateY(-2px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+.testimonial-indicators {
+  display: flex;
+  justify-content: center;
+  gap: 0.8rem;
+  margin-top: 2rem;
+
+  .indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #ddd;
+    border: 1px solid $border-light;
+    outline: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &.active {
+      background: $primary-green;
+      border-color: $primary-green;
+      width: 30px;
+      border-radius: 6px;
+    }
+
+    &:hover:not(.active) {
+      background: $secondary-green;
+      border-color: $secondary-green;
+    }
+  }
+}
+
+// Animaciones de transición para testimonios
+.slide-left-enter-active,
+.slide-left-leave-active,
+.slide-right-enter-active,
+.slide-right-leave-active {
+  transition: all 0.4s ease;
+}
+
+.slide-left-enter-from {
+  transform: translateX(100%);
+  opacity: 0;
+}
+
+.slide-left-leave-to {
+  transform: translateX(-100%);
+  opacity: 0;
+}
+
+.slide-right-enter-from {
+  transform: translateX(-100%);
+  opacity: 0;
+}
+
+.slide-right-leave-to {
+  transform: translateX(100%);
+  opacity: 0;
+}
+
+// Responsive para testimonios
+@media (max-width: 768px) {
+  .testimonials {
+    padding: 3rem 1rem;
+  }
+
+  .testimonial-carousel {
+    gap: 0.5rem;
+  }
+
+  .testimonial-content {
+    padding: 1.75rem 1.25rem;
+    margin: 0 .5rem 1rem;
+    /* Sombra más ligera en móvil */
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.07);
+
+    blockquote {
+      font-size: 1rem;
+
+      &::before {
+        font-size: 2rem;
+      }
+    }
+
+    .testimonial-autor {
+      font-size: 0.95rem;
+    }
+  }
+
+  .testimonial-nav {
+    width: 35px;
+    height: 35px;
+
+    svg {
+      width: 16px;
+      height: 16px;
+    }
+  }
 }
 
 

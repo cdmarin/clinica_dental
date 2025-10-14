@@ -98,7 +98,7 @@
 
 @media (max-width: 768px) {
   .antes-despues-container {
-    padding: 2rem 1rem;
+    padding: 2rem 0rem;
 
     h2 {
       font-size: 1.8rem;
@@ -106,7 +106,7 @@
   }
 
   .caso-antes-despues {
-    padding: 1rem;
+    padding: 1rem 0.5rem;
 
     h3 {
       font-size: 1.2rem;
@@ -116,11 +116,24 @@
 
   .comparacion {
     grid-template-columns: 1fr;
-    gap: 0.8rem;
+    gap: 1rem;
   }
 
   .imagen-wrapper img {
-    height: 150px;
+    height: 220px;
+  }
+
+  .imagen-wrapper {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+
+    &:hover {
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
+      transform: translateY(-3px);
+    }
+  }
+
+  .caso-antes-despues {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
   }
 }
 

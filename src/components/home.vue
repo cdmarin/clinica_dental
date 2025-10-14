@@ -40,9 +40,37 @@
     <!-- Testimonials section -->
     <section class="testimonials">
       <h2>{{ $t('testimonios') }}</h2>
-      <div class="testimonial-list">
-        <blockquote>{{ $t('testimonio1') }}</blockquote>
-        <blockquote>{{ $t('testimonio2') }}</blockquote>
+      <div class="testimonial-carousel">
+        <button class="testimonial-nav prev" @click="testimonioAnterior" aria-label="Anterior">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        
+        <div class="testimonial-container">
+          <transition :name="testimonioTransition" mode="out-in">
+            <div :key="testimonioActual" class="testimonial-content">
+              <blockquote>{{ $t('testimonio' + (testimonioActual + 1)) }}</blockquote>
+              <p class="testimonial-autor">{{ $t('testimonio' + (testimonioActual + 1) + 'Autor') }}</p>
+            </div>
+          </transition>
+        </div>
+
+        <button class="testimonial-nav next" @click="testimonioSiguiente" aria-label="Siguiente">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+      
+      <div class="testimonial-indicators">
+        <button
+          v-for="index in 5"
+          :key="index"
+          :class="['indicator', { active: index - 1 === testimonioActual }]"
+          @click="irATestimonio(index - 1)"
+          :aria-label="'Testimonio ' + index"
+        ></button>
       </div>
     </section>
 
@@ -92,8 +120,7 @@ export default {
         { key: 'servicios', icon: '/img/icon-servicios.png', label: 'servicios' },
         { key: 'antesYDespues', icon: '/img/icon-antesYDespues.png', label: 'antesYDespues' }
       ],
-      // Sección actual
-      currentSection: null,
+      currentSection: 'trabajadores',
       // Datos de trabajadores
       trabajadores: [],
       cargando: true,
@@ -105,7 +132,11 @@ export default {
       // Datos de casos de antes y después
       casos: [],
       cargandoCasos: true,
-      errorCasos: null
+      errorCasos: null,
+      // Testimonios carousel
+      testimonioActual: 0,
+      testimonioTransition: 'slide-left',
+      testimonioInterval: null
     }
   },
   computed: {
@@ -157,12 +188,39 @@ export default {
       } finally {
         this.cargandoCasos = false
       }
+    },
+    testimonioSiguiente() {
+      this.testimonioTransition = 'slide-left'
+      this.testimonioActual = (this.testimonioActual + 1) % 5
+    },
+    testimonioAnterior() {
+      this.testimonioTransition = 'slide-right'
+      this.testimonioActual = (this.testimonioActual - 1 + 5) % 5
+    },
+    irATestimonio(index) {
+      this.testimonioTransition = index > this.testimonioActual ? 'slide-left' : 'slide-right'
+      this.testimonioActual = index
+    },
+    iniciarAutoScroll() {
+      this.testimonioInterval = setInterval(() => {
+        this.testimonioSiguiente()
+      }, 5000) // Cambia cada 5 segundos
+    },
+    detenerAutoScroll() {
+      if (this.testimonioInterval) {
+        clearInterval(this.testimonioInterval)
+        this.testimonioInterval = null
+      }
     }
   },
   mounted() {
     this.cargarTrabajadores()
     this.cargarServicios()
     this.cargarCasos()
+    this.iniciarAutoScroll()
+  },
+  beforeUnmount() {
+    this.detenerAutoScroll()
   }
 }
 </script>

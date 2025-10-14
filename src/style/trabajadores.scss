@@ -130,3 +130,32 @@
     color: $error-red;
     background: $error-bg;
 }
+
+/* Responsive: reducir tamaño de foto en móviles */
+@media (max-width: 768px) {
+    .staff-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .staff-card {
+        padding: .75rem;
+    }
+
+    .staff-card .photo-placeholder {
+        height: 200px; /* contenedor fijo para mantener proporción */
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        background: $white;
+    }
+
+    .staff-card .photo-placeholder img {
+        height: 100%;
+        width: auto; /* evita recorte y mantiene proporción */
+        object-fit: contain; /* muestra la imagen completa */
+        object-position: center;
+    }
+}
