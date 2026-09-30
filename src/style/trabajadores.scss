@@ -1,213 +1,92 @@
 @use './variables.scss' as *;
 
-.trabajadores-container {
-    padding: 4rem 2rem;
-    color: #333;
-    text-align: center;
-    min-height: 80vh;
-
-    @media (max-width: 768px) {
-        padding: 2rem 1rem;
-        min-height: auto;
-    }
-
-    h2 {
-        font-size: 2.5rem;
-        margin-bottom: 3rem;
-        color: #2c3e50;
-        font-weight: 700;
-        position: relative;
-
-        @media (max-width: 768px) {
-            font-size: 1.8rem;
-            margin-bottom: 2rem;
-        }
-        
-        &::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 60px;
-            height: 4px;
-            background: linear-gradient(90deg, #439505, #67b02a);
-            border-radius: 2px;
-        }
-    }
-}
-
 .staff-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 3rem;
-    margin: 3rem auto 0;
-    max-width: 1200px;
-    padding: 0 1rem;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
 }
 
 .staff-card {
-    background: $white;
-    border-radius: 20px;
-    padding: 1rem;
-    box-shadow: $shadow-light;
-    text-align: center;
-    transition: all 0.3s ease;
-    border: 1px solid $border-light;
-    position: relative;
-    overflow: hidden;
+  background: $white;
+  border-radius: 22px;
+  padding: 14px 14px 22px;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 
-    &::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 4px;
-        background: $green-gradient;
-        transform: scaleX(0);
-        transition: transform 0.3s ease;
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: $shadow-soft;
+  }
+
+  .photo-placeholder {
+    aspect-ratio: 4 / 5;
+    border-radius: 16px;
+    background: $mint-strong;
+    overflow: hidden;
+    margin-bottom: 14px;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+    }
+  }
+
+  h3 {
+    margin: 0 0 4px;
+    font-size: 1.15rem;
+    color: $text-body;
+  }
+
+  p {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: $green-deep;
+  }
+}
+
+// Estados de carga y error (compartidos por las tres secciones)
+.loading-state,
+.error-state,
+.no-casos {
+  text-align: center;
+  padding: 3rem 2rem;
+  color: $text-muted;
+  font-size: 1.05rem;
+  background: $white;
+  border-radius: 20px;
+  margin: 0 auto;
+  max-width: 500px;
+}
+
+.error-state {
+  color: $error-red;
+}
+
+@media (max-width: $mobile) {
+  .staff-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .staff-card {
+    padding: 10px 10px 16px;
+    border-radius: 18px;
+
+    &:hover {
+      transform: none;
+      box-shadow: none;
     }
 
     h3 {
-        font-size: 1.4rem;
-        margin: 1rem 0 0.5rem;
-        color: $text-dark;
-        font-weight: 600;
-        transition: color 0.3s ease;
+      font-size: 1rem;
     }
 
     p {
-        font-size: 1rem;
-        color: $text-gray;
-        margin: 0;
-        line-height: 1.6;
+      font-size: 13px;
     }
-
-    .photo-placeholder {
-        position: relative;
-        margin-bottom: 1.5rem;
-        width: 100%;
-        height: 350px;
-        overflow: hidden;
-        border-radius: 15px;
-        
-        img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center top;
-            transition: all 0.3s ease;
-            filter: drop-shadow($shadow-icon);
-        }
-    }
-
-    &:hover {
-        transform: translateY(-8px);
-        box-shadow: $shadow-medium;
-        border-color: $border-medium;
-
-        &::before {
-            transform: scaleX(1);
-        }
-
-        h3 {
-            color: $primary-green;
-        }
-
-        .photo-placeholder img {
-            border-color: $border-medium;
-            filter: drop-shadow($shadow-icon-hover);
-        }
-
-        @media (max-width: 768px) {
-            transform: none;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            border-color: $border-light;
-
-            &::before {
-                transform: scaleX(0);
-            }
-
-            h3 {
-                color: $text-dark;
-            }
-
-            .photo-placeholder img {
-                filter: drop-shadow($shadow-icon);
-            }
-        }
-    }
-}
-
-.loading-state,
-.error-state {
-    text-align: center;
-    padding: 4rem 2rem;
-    color: $text-gray;
-    font-size: 1.2rem;
-    background: rgba(255, 255, 255, 0.8);
-    border-radius: 15px;
-    margin: 2rem auto;
-    max-width: 500px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-}
-
-.error-state {
-    color: $error-red;
-    background: $error-bg;
-}
-
-/* Responsive: reducir tamaño de foto en móviles */
-@media (max-width: 768px) {
-    .staff-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 1rem;
-        padding: 0;
-    }
-
-    .staff-card {
-        padding: 0.75rem;
-        min-height: 280px;
-        display: flex;
-        flex-direction: column;
-
-        h3 {
-            font-size: 1rem;
-            min-height: 2.5em;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        p {
-            font-size: 0.8rem;
-            min-height: 2.5em;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-    }
-
-    .staff-card .photo-placeholder {
-        height: 150px; /* contenedor más pequeño para móvil */
-        border-radius: 12px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        overflow: hidden;
-        background: $white;
-        margin-bottom: 0.75rem;
-    }
-
-    .staff-card .photo-placeholder img {
-        height: 100%;
-        width: auto; /* evita recorte y mantiene proporción */
-        object-fit: contain; /* muestra la imagen completa */
-        object-position: center;
-    }
+  }
 }
