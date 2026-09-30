@@ -1,6 +1,6 @@
 <template>
     <div class="antes-despues-container">
-        <h2>{{ $t('antesYDespues') }}</h2>
+        <h2 class="visually-hidden">{{ $t('antesYDespues') }}</h2>
 
         <!-- Estado de carga -->
         <div v-if="cargandoCasos" class="loading-state">
@@ -57,7 +57,7 @@
         </div>
 
         <!-- Mensaje cuando no hay casos -->
-        <div v-else class="no-casos">
+        <div v-else-if="!cargandoCasos && !errorCasos" class="no-casos">
             <p>No hay casos disponibles en este momento.</p>
         </div>
     </div>

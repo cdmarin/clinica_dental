@@ -1,52 +1,70 @@
 <template>
   <div class="home-container">
-    <!-- Hero section full screen -->
-    <section class="hero-section"></section>
+    <!-- Cabecera -->
+    <header class="site-header">
+      <div class="wrap nav">
+        <a class="brand" href="#inicio">
+          <span class="brand-dot"><svg width="22" height="22"><use href="#icon-tooth" /></svg></span>
+          Niurka Arvelo
+        </a>
+        <nav class="nav-links">
+          <a v-for="section in sections" :key="section.key" href="#secciones" @click="currentSection = section.key">
+            {{ $t(section.key) }}
+          </a>
+          <a href="#opiniones">{{ $t('opiniones') }}</a>
+          <a href="#contacto">{{ $t('contacto') }}</a>
+        </nav>
+        <a class="btn" href="#contacto">{{ $t('pedirCita') }}</a>
+      </div>
+    </header>
 
-    <!-- Middle descriptive text -->
-    <section class="middle-text-section">
-      <p>⭐⭐⭐⭐⭐</p>
-      <p class="middle-text">{{ $t('descripcion') }}</p>
+    <!-- Hero: foto de la clínica con tarjeta de bienvenida -->
+    <section class="hero-section wrap" id="inicio">
+      <div class="hero-img">
+        <img src="/img/home.png" alt="Clínica Dental Niurka Arvelo" />
+      </div>
+      <div class="hero-card">
+        <div class="rating">★★★★★ <span>{{ $t('pacientesSatisfechos') }}</span></div>
+        <h1>{{ $t('bienvenido') }}</h1>
+        <p>{{ $t('descripcion') }}</p>
+        <a class="btn" href="#contacto">{{ $t('reservarCita') }}</a>
+      </div>
     </section>
 
-    <!-- Navigation buttons -->
-    <section class="sections-grid">
-      <button v-for="section in sections" :key="section.key" @click="currentSection = section.key"
-        :class="['section-card', { active: currentSection === section.key }]">
-        <div class="icon-placeholder">
-          <img :src="section.icon"
-            :alt="section.label" />
+    <!-- Secciones: equipo / servicios / antes y después -->
+    <section class="band" id="secciones">
+      <div class="wrap">
+        <div class="sections-pills" role="tablist">
+          <button v-for="section in sections" :key="section.key" role="tab"
+            :aria-selected="currentSection === section.key"
+            :class="['pill', { active: currentSection === section.key }]"
+            @click="currentSection = section.key">
+            <span class="pill-icon"><svg width="18" height="18"><use :href="'#icon-' + section.icon" /></svg></span>
+            {{ $t(section.key) }}
+          </button>
         </div>
-        <span>{{ $t(section.key) }}</span>
-      </button>
+
+        <transition name="fade" mode="out-in">
+          <div class="dynamic-section" v-if="currentSection" :key="currentSection">
+            <component :is="currentSectionComponent"
+              :trabajadores="trabajadores"
+              :cargando="cargando"
+              :error="error"
+              :servicios="servicios"
+              :cargandoServicios="cargandoServicios"
+              :errorServicios="errorServicios"
+              :casos="casos"
+              :cargandoCasos="cargandoCasos"
+              :errorCasos="errorCasos" />
+          </div>
+        </transition>
+      </div>
     </section>
 
-    <!-- Dynamic component display -->
-    <transition name="fade" mode="out-in">
-      <section class="dynamic-section" v-if="currentSection" :key="currentSection">
-        <component :is="currentSectionComponent" 
-          :trabajadores="trabajadores"
-          :cargando="cargando"
-          :error="error"
-          :servicios="servicios"
-          :cargandoServicios="cargandoServicios"
-          :errorServicios="errorServicios"
-          :casos="casos"
-          :cargandoCasos="cargandoCasos"
-          :errorCasos="errorCasos" />
-      </section>
-    </transition>
-
-    <!-- Testimonials section -->
-    <section class="testimonials">
-      <h2>{{ $t('testimonios') }}</h2>
-      <div class="testimonial-carousel">
-        <button class="testimonial-nav prev" @click="testimonioAnterior" aria-label="Anterior">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-            <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </button>
-        
+    <!-- Testimonios -->
+    <section class="testimonials" id="opiniones">
+      <div class="wrap">
+        <h2>{{ $t('testimonios') }}</h2>
         <div class="testimonial-container">
           <transition :name="testimonioTransition" mode="out-in">
             <div :key="testimonioActual" class="testimonial-content">
@@ -55,45 +73,66 @@
             </div>
           </transition>
         </div>
-
-        <button class="testimonial-nav next" @click="testimonioSiguiente" aria-label="Siguiente">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-            <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </button>
-      </div>
-      
-      <div class="testimonial-indicators">
-        <button
-          v-for="index in 5"
-          :key="index"
-          :class="['indicator', { active: index - 1 === testimonioActual }]"
-          @click="irATestimonio(index - 1)"
-          :aria-label="'Testimonio ' + index"
-        ></button>
+        <div class="testimonial-indicators">
+          <button
+            v-for="index in 5"
+            :key="index"
+            :class="['indicator', { active: index - 1 === testimonioActual }]"
+            @click="irATestimonio(index - 1)"
+            :aria-label="'Testimonio ' + index"
+          ></button>
+        </div>
       </div>
     </section>
 
-    <!-- Footer con ubicación y contacto -->
-    <footer class="footer-ubicacion">
-      <div class="footer-content">
-        <div class="footer-info">
-          <h3>{{ $t('ubicacion') }}</h3>
-          <p>{{ $t('direccionLinea1') }}</p>
-          <p>{{ $t('direccionLinea2') }}</p>
-          <p>{{ $t('horario') }}</p>
+    <!-- Contacto: ubicación, horario y teléfono -->
+    <section class="contacto" id="contacto">
+      <div class="wrap">
+        <div class="section-title">
+          <h2>{{ $t('visitanos') }}</h2>
+          <p>{{ $t('visitanosSub') }}</p>
         </div>
-        <div class="footer-map">
-          <iframe class="map-frame"
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.019453078308!2d-122.41941548468112!3d37.77492927975953!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8085808c1b7c6b7b%3A0x6c82e63b3c6d081e!2sSan%20Francisco%2C%20CA!5e0!3m2!1ses!2sus!4v1600000000000"
-            frameborder="0" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+        <div class="contacto-grid">
+          <div class="contacto-info">
+            <div class="contacto-row">
+              <span class="row-icon"><svg width="20" height="20"><use href="#icon-pin" /></svg></span>
+              <div><b>{{ $t('ubicacion') }}</b><span>{{ $t('direccionLinea1') }} · {{ $t('direccionLinea2') }}</span></div>
+            </div>
+            <div class="contacto-row">
+              <span class="row-icon"><svg width="20" height="20"><use href="#icon-clock" /></svg></span>
+              <div><b>{{ $t('horarioTitulo') }}</b><span>{{ $t('horario') }}</span></div>
+            </div>
+            <div class="contacto-row">
+              <span class="row-icon"><svg width="20" height="20"><use href="#icon-phone" /></svg></span>
+              <div><b>{{ $t('contactoTitulo') }}</b><span>{{ $t('contactoInfo') }}</span></div>
+            </div>
+          </div>
+          <div class="contacto-map">
+            <iframe class="map-frame"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.019453078308!2d-122.41941548468112!3d37.77492927975953!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8085808c1b7c6b7b%3A0x6c82e63b3c6d081e!2sSan%20Francisco%2C%20CA!5e0!3m2!1ses!2sus!4v1600000000000"
+              frameborder="0" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+          </div>
         </div>
       </div>
-      <div class="footer-contacto">
-        <h3>{{ $t('contactoTitulo') }}</h3>
-        <p>{{ $t('contactoInfo') }}</p>
+    </section>
+
+    <footer class="site-footer">
+      <div class="wrap footer-inner">
+        <span>© Clínica Dental Niurka Arvelo</span>
+        <span>{{ $t('horario') }}</span>
+        <span>{{ $t('lema') }}</span>
       </div>
     </footer>
+
+    <!-- Iconos SVG -->
+    <svg width="0" height="0" class="icon-sprite" aria-hidden="true">
+      <symbol id="icon-tooth" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" d="M7.5 3.5c-2.6 0-4 2.1-4 4.6 0 2.3 1.2 3.6 1.7 5.6.6 2.4.8 6.8 2.6 6.8 1.7 0 1.5-4.6 3.2-4.6h2c1.7 0 1.5 4.6 3.2 4.6 1.8 0 2-4.4 2.6-6.8.5-2 1.7-3.3 1.7-5.6 0-2.5-1.4-4.6-4-4.6-1.8 0-2.6 1-4.5 1s-2.7-1-4.5-1z" /></symbol>
+      <symbol id="icon-team" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="9" cy="8" r="3.2" /><path d="M3.5 19.5c.6-3.2 2.8-5 5.5-5s4.9 1.8 5.5 5" /><circle cx="17" cy="9" r="2.4" /><path d="M16 14.6c2.3.1 4 1.6 4.5 4.4" /></g></symbol>
+      <symbol id="icon-spark" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9zM18.5 15.5l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z" /></symbol>
+      <symbol id="icon-pin" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s-6.5-6-6.5-11a6.5 6.5 0 0113 0c0 5-6.5 11-6.5 11z" /><circle cx="12" cy="10" r="2.3" /></g></symbol>
+      <symbol id="icon-clock" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="8.5" /><path d="M12 7.5V12l3 2" /></g></symbol>
+      <symbol id="icon-phone" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" d="M5 4h3.5l1.5 4-2 1.3a10 10 0 005 5l1.3-2 4 1.5V17a2 2 0 01-2 2C10.5 19 5 13.5 5 6a2 2 0 010-2z" /></symbol>
+    </svg>
   </div>
 </template>
 
@@ -116,9 +155,9 @@ export default {
     return {
       // Secciones disponibles
       sections: [
-        { key: 'trabajadores', icon: '/img/icon-trabajadores.png', label: 'trabajadores' },
-        { key: 'servicios', icon: '/img/icon-servicios.png', label: 'servicios' },
-        { key: 'antesYDespues', icon: '/img/icon-antesYDespues.png', label: 'antesYDespues' }
+        { key: 'trabajadores', icon: 'team' },
+        { key: 'servicios', icon: 'tooth' },
+        { key: 'antesYDespues', icon: 'spark' }
       ],
       currentSection: 'trabajadores',
       // Datos de trabajadores

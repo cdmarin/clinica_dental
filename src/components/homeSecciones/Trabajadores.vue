@@ -1,6 +1,6 @@
 <template>
   <section class="trabajadores-container">
-    <h2>{{ $t('trabajadores') }}</h2>
+    <h2 class="visually-hidden">{{ $t('trabajadores') }}</h2>
 
     <!-- Estado de carga -->
     <div v-if="cargando" class="loading-state">
