@@ -16,7 +16,7 @@
     <div v-else class="staff-grid">
       <div v-for="miembro in trabajadores" :key="miembro.id" class="staff-card">
         <div class="photo-placeholder">
-          <img :src="miembro.imagen_url || miembro.imagen || '/img/trabajadores/doctor1.png'" :alt="miembro.nombre" />
+          <img :src="miembro.imagen_url || miembro.imagen || baseUrl + 'img/trabajadores/doctor1.png'" :alt="miembro.nombre" />
         </div>
         <h3>{{ miembro.nombre }}</h3>
         <p>{{ miembro.especialidad }}</p>
@@ -28,6 +28,11 @@
 <script>
 export default {
   name: 'Trabajadores',
+  data() {
+    return {
+      baseUrl: import.meta.env.BASE_URL
+    }
+  },
   props: {
     trabajadores: {
       type: Array,

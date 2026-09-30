@@ -21,7 +21,7 @@
     <!-- Hero: foto de la clínica con tarjeta de bienvenida -->
     <section class="hero-section wrap" id="inicio">
       <div class="hero-img">
-        <img src="/img/home.png" alt="Clínica Dental Niurka Arvelo" />
+        <img :src="baseUrl + 'img/home.png'" alt="Clínica Dental Niurka Arvelo" />
       </div>
       <div class="hero-card">
         <div class="rating">★★★★★ <span>{{ $t('pacientesSatisfechos') }}</span></div>
@@ -153,6 +153,7 @@ export default {
   },
   data() {
     return {
+      baseUrl: import.meta.env.BASE_URL,
       // Secciones disponibles
       sections: [
         { key: 'trabajadores', icon: 'team' },
